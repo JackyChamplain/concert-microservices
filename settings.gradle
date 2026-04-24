@@ -1,0 +1,7 @@
+rootProject.name = 'concert-microservices' 
+include 'api-gateway' 
+include 'concerts-service' 
+include 'customers-service' 
+include 'showtimes-service' 
+include 'reservation-service'
+include 'orchestrator-service'
