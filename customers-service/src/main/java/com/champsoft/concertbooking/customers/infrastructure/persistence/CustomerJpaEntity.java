@@ -17,7 +17,7 @@ public class CustomerJpaEntity {
 
     public String address;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     public String email;
 
     @Column(nullable = false)
@@ -32,4 +32,5 @@ public class CustomerJpaEntity {
         this.email = email;
         this.status = status;
     }
+
 }

@@ -1,4 +1,4 @@
-package com.champsoft.concertbooking.concerts.web;
+package com.champsoft.concertbooking.customers.web;
 
 import java.time.LocalDateTime;
 

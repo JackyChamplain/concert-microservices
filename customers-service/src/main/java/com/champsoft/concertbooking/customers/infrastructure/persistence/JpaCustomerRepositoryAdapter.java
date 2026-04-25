@@ -34,4 +34,8 @@ public class JpaCustomerRepositoryAdapter implements CustomerRepositoryPort {
     public void deleteById(String id) {
         springRepo.deleteById(id);
     }
+    @Override
+    public boolean existsByEmail(String email) {
+        return springRepo.existsByEmail(email);
+    }
 }

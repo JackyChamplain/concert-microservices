@@ -1,4 +1,4 @@
-package com.champsoft.concertBooking.shared.config;
+package com.champsoft.concertbooking.showtimes.config;
 
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;

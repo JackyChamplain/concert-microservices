@@ -1,1 +1,1 @@
-package com.champsoft.concertBooking.shared.config; public class WebConfig {}
+package com.champsoft.concertbooking.concerts.config; public class WebConfig {}

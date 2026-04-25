@@ -1,1 +1,7 @@
-package com.champsoft.concertBooking.modules.concert.domain.exception; public class InvalidConcertNameException extends RuntimeException {}
+package com.champsoft.concertbooking.concerts.domain.exception;
+
+public class InvalidConcertNameException extends RuntimeException {
+    public InvalidConcertNameException(String message) {
+        super(message);
+    }
+}

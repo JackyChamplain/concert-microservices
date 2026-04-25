@@ -10,4 +10,6 @@ public interface CustomerRepositoryPort {
     Optional<CustomerJpaEntity> findById(String id);
     CustomerJpaEntity save(CustomerJpaEntity entity);
     void deleteById(String id);
+
+    boolean existsByEmail(String email);
 }

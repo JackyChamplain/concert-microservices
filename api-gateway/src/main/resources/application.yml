@@ -12,28 +12,28 @@ spring:
               predicates:
                 - Path=/api/concerts/**
               filters:
-                - RewritePath=/api/concerts/(?<segment>.*), /$\{segment}
+                - RewritePath=/api/concerts/v3/api-docs, /v3/api-docs
 
             - id: customers-service
               uri: http://localhost:8082
               predicates:
                 - Path=/api/customers/**
               filters:
-                - RewritePath=/api/customers/(?<segment>.*), /$\{segment}
+                - RewritePath=/api/customers/v3/api-docs, /v3/api-docs
 
             - id: showtimes-service
               uri: http://localhost:8083
               predicates:
                 - Path=/api/showtimes/**
               filters:
-                - RewritePath=/api/showtimes/(?<segment>.*), /$\{segment}
+                - RewritePath=/api/showtimes/v3/api-docs, /v3/api-docs
 
             - id: reservation-service
               uri: http://localhost:8085
               predicates:
                 - Path=/api/reservations/**
               filters:
-                - RewritePath=/api/reservations/(?<segment>.*), /$\{segment}
+                - RewritePath=/api/reservations/v3/api-docs, /v3/api-docs
 
 server:
   port: 8080
