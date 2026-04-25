@@ -15,14 +15,18 @@
 
 server:
   port: 8085
+  forward-headers-strategy: framework
 
 springdoc:
+  packages-to-scan: com.champsoft.concertbooking.reservation.api
   api-docs:
     path: /v3/api-docs
+    resolve-schema-properties: true
   swagger-ui:
+    url: /v3/api-docs
+    config-url: /v3/api-docs/swagger-config
     path: /swagger-ui.html
-    operationsSorter: method
-    tagsSorter: alpha
+    enabled: true
 
 logging:
   level:

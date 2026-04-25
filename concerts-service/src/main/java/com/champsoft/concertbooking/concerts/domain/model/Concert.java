@@ -1,4 +1,4 @@
-package com.champsoft.concertBooking.modules.concert.domain.model;
+package com.champsoft.concertbooking.concerts.domain.model;
 
 public class Concert {
     public final ConcertId id;

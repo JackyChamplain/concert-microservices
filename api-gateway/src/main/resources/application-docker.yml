@@ -7,25 +7,25 @@ spring:
       server:
         webflux:
           routes:
-            - id: cars-service
-              uri: http://cars-service:8080
+            - id: concerts-service
+              uri: http://concerts-service:8080
               predicates:
-                - Path=/api/cars/**
+                - Path=/api/concerts/**
 
-            - id: owners-service
-              uri: http://owners-service:8080
+            - id: customers-service
+              uri: http://customers-service:8080
               predicates:
-                - Path=/api/owners/**
+                - Path=/api/customers/**
 
-            - id: agents-service
-              uri: http://agents-service:8080
+            - id: showtimes-service
+              uri: http://showtimes-service:8080
               predicates:
-                - Path=/api/agents/**
+                - Path=/api/showtimes/**
 
-            - id: registration-service
-              uri: http://registration-service:8080
+            - id: reservation-service
+              uri: http://reservation-service:8080
               predicates:
-                - Path=/api/registrations/**
+                - Path=/api/reservations/**
 
 server:
   port: 8080
@@ -34,11 +34,11 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     urls:
-      - name: cars-service
+      - name: concerts-service
         url: http://localhost:8081/v3/api-docs
-      - name: owners-service
+      - name: customers-service
         url: http://localhost:8082/v3/api-docs
-      - name: agents-service
+      - name: showtimes-service
         url: http://localhost:8083/v3/api-docs
-      - name: registration-service
-        url: http://localhost:8084/v3/api-docs
+      - name: reservation-service
+        url: http://localhost:8085/v3/api-docs

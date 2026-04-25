@@ -1,3 +1,3 @@
-package com.champsoft.concertBooking.modules.concert.domain.model;
+package com.champsoft.concertbooking.concerts.domain.model;
 
 public record Type(String value) {}
