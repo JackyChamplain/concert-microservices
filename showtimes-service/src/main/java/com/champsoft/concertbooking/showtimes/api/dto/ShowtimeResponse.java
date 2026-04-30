@@ -1,11 +1,10 @@
 package com.champsoft.concertbooking.showtimes.api.dto;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public record ShowtimeResponse(
         String id,
         LocalDate date,
-        LocalTime time,
+        LocalDate time,
         String concertId
 ) {}

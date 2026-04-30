@@ -40,15 +40,19 @@ public class ConcertController {
 
     @PutMapping("/{id}")
     public ConcertResponse update(@PathVariable String id, @RequestBody UpdateConcertRequest request) {
+
         var entity = new com.champsoft.concertbooking.concerts.infrastructure.persistence.ConcertJpaEntity(
-                id, request.name(), request.venue(), request.type(), request.price(), request.isPremium()
+                id,
+                request.name(),
+                request.artist(),
+                request.venue(),
+                request.type(),
+                request.price(),
+                request.isPremium()
         );
+
         return ConcertApiMapper.toResponse(service.update(id, entity));
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable String id) {
-        service.delete(id);
-    }
+
 }

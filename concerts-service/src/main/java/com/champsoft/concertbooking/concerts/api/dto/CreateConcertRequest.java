@@ -4,6 +4,7 @@ public record CreateConcertRequest (
 
     String id,
     String name,
+    String artist,
     String venue,
     String type,
     double price,
