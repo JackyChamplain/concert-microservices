@@ -5,6 +5,6 @@ public record ConcertResponse (
         String name,
         String venue,
         String type,
-        double price,
+        String entityType, double price,
         boolean isPremium
 ){}

@@ -7,8 +7,9 @@ public class ConcertApiMapper {
 
     public static ConcertJpaEntity toEntity(CreateConcertRequest request) {
         return new ConcertJpaEntity(
-                request.id(),
+                null,
                 request.name(),
+                request.artist(),
                 request.venue(),
                 request.type(),
                 request.price(),
@@ -18,12 +19,13 @@ public class ConcertApiMapper {
 
     public static ConcertResponse toResponse(ConcertJpaEntity entity) {
         return new ConcertResponse(
-                entity.id,
-                entity.name,
-                entity.venue,
-                entity.type,
-                entity.price,
-                entity.isPremium
+                entity.getId(),
+                entity.getName(),
+                entity.getArtist(),
+                entity.getVenue(),
+                entity.getType(),
+                entity.getPrice(),
+                entity.isPremium()
         );
     }
 }

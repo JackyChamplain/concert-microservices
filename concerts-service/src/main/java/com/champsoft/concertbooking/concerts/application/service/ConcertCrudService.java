@@ -28,8 +28,8 @@ public class ConcertCrudService {
     }
 
     public ConcertJpaEntity create(ConcertJpaEntity entity) {
-        if (repositoryPort.findById(entity.id).isPresent()) {
-            throw new ConcertAlreadyExistsException("Concert with ID " + entity.id + " already exists.");
+        if (repositoryPort.findById(entity.getId()).isPresent()) {
+            throw new ConcertAlreadyExistsException("Concert with ID " + entity.getId() + " already exists.");
         }
         validateConcert(entity);
         return repositoryPort.save(entity);
@@ -39,7 +39,7 @@ public class ConcertCrudService {
         repositoryPort.findById(id)
                 .orElseThrow(() -> new ConcertNotFoundException("Cannot update. Concert not found with id: " + id));
         validateConcert(entity);
-        entity.id = id;
+        entity.setId(id);
         return repositoryPort.save(entity);
     }
 
@@ -50,11 +50,11 @@ public class ConcertCrudService {
     }
 
     private void validateConcert(ConcertJpaEntity entity) {
-        if (entity.name == null || entity.name.isBlank()) {
+        if (entity.getName() == null || entity.getName().isBlank()) {
             throw new InvalidConcertNameException("Concert name is required and cannot be empty.");
         }
 
-        if (entity.venue == null || entity.venue.isBlank()) {
+        if (entity.getVenue() == null || entity.getVenue().isBlank()) {
             throw new InvalidVenueNameException("Venue name is required and cannot be empty.");
         }
     }

@@ -36,7 +36,7 @@ public class ShowtimeCrudService {
         return port.findById(id)
                 .map(existing -> {
                     validateShowtime(entity);
-                    entity.id = id;
+                    entity.setId(id);
                     return port.save(entity);
                 })
                 .orElseThrow(() -> new ShowtimeNotFoundException("Cannot update. Showtime not found with id: " + id));
@@ -50,15 +50,15 @@ public class ShowtimeCrudService {
     }
 
     private void validateShowtime(ShowtimeJpaEntity entity) {
-        if (entity.date == null) {
+        if (entity.getDate() == null) {
             throw new InvalidShowtimeException("Showtime date cannot be null.");
         }
 
-        if (entity.time == null) {
+        if (entity.getTime() == null) {
             throw new InvalidShowtimeException("Showtime time cannot be null.");
         }
 
-        LocalDateTime showDateTime = LocalDateTime.of(entity.date, entity.time);
+        LocalDateTime showDateTime = LocalDateTime.of(entity.getDate(), entity.getTime());
 
         if (showDateTime.isBefore(LocalDateTime.now())) {
             throw new InvalidShowtimeException("Showtime cannot be in the past. Attempted: " + showDateTime);
