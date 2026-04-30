@@ -1,0 +1,134 @@
+version: "3.9"
+services:
+  # ---------------- DATABASES ----------------
+  concerts-db:
+    image: postgres:16
+    container_name: concerts-db
+    environment:
+      POSTGRES_DB: concerts_db
+      POSTGRES_USER: vrms
+      POSTGRES_PASSWORD: vrms
+    ports:
+      - "5433:5432"
+    volumes:
+      - concerts_pg_data:/var/lib/postgresql/data
+  customers-db:
+    image: postgres:16
+    container_name: customers-db
+    environment:
+      POSTGRES_DB: customers_db
+      POSTGRES_USER: vrms
+      POSTGRES_PASSWORD: vrms
+    ports:
+      - "5434:5432"
+    volumes:
+      - customers_pg_data:/var/lib/postgresql/data
+  showtimes-db:
+    image: postgres:16
+    container_name: showtimes-db
+    environment:
+      POSTGRES_DB: showtimes_db
+      POSTGRES_USER: vrms
+      POSTGRES_PASSWORD: vrms
+    ports:
+      - "5435:5432"
+    volumes:
+      - showtimes_pg_data:/var/lib/postgresql/data
+
+  reservation-db:
+    image: postgres:16
+    container_name: reservation-db
+    environment:
+      POSTGRES_DB: reservation_db
+      POSTGRES_USER: vrms
+      POSTGRES_PASSWORD: vrms
+    ports:
+      - "5436:5432"
+    volumes:
+      - reservation_pg_data:/var/lib/postgresql/data
+    # ---------------- SERVICES ----------------
+
+  concerts-service:
+    build: ./concerts-service
+    container_name: concerts-service
+    environment:
+      SPRING_PROFILES_ACTIVE: pg
+      POSTGRES_HOST: concerts-db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: concerts_db
+      POSTGRES_USER: vrms
+      POSTGRES_PASSWORD: vrms
+      SERVER_PORT: 8080
+    depends_on:
+      - concerts-db
+    ports:
+      - "8081:8080"
+
+  customers-service:
+    build: ./customers-service
+    container_name: customers-service
+    environment:
+      SPRING_PROFILES_ACTIVE:
+      POSTGRES_HOST: customers-db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: customers_db
+      POSTGRES_USER: vrms
+      POSTGRES_PASSWORD: vrms
+      SERVER_PORT: 8080
+    depends_on:
+      - customers-db
+    ports:
+      - "8082:8080"
+
+  showtimes-service:
+      build: ./showtimes-service
+      container_name: showtimes-service
+      environment:
+        SPRING_PROFILES_ACTIVE: pg
+        POSTGRES_HOST: showtimes-db
+        POSTGRES_PORT: 5432
+        POSTGRES_DB: showtimes_db
+        POSTGRES_USER: vrms
+        POSTGRES_PASSWORD: vrms
+        SERVER_PORT: 8080
+      depends_on:
+        - showtimes-db
+      ports:
+        - "8083:8080"
+
+  reservation-service:
+      build: ./reservation-service
+      container_name: reservation-service
+      environment:
+        SPRING_PROFILES_ACTIVE: pg,docker
+        POSTGRES_HOST: reservation-db
+        POSTGRES_PORT: 5432
+        POSTGRES_DB: reservation_db
+        POSTGRES_USER: vrms
+        POSTGRES_PASSWORD: vrms
+        SERVER_PORT: 8080
+      depends_on:
+        - reservation-db
+        - customers-service
+        - showtimes-service
+      ports:
+        - "8085:8080"
+      # ---------------- API GATEWAY ----------------
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SERVER_PORT: 8080
+    depends_on:
+      - concerts-service
+      - customers-service
+      - showtimes-service
+      - reservation-service
+    ports:
+      - "8080:8080"
+volumes:
+  concerts_pg_data:
+  customers_pg_data:
+  showtimes_pg_data:
+  reservation_pg_data:

@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: concerts-service
+              uri: http://localhost:8081
+              predicates:
+                - Path=/api/concerts/**
+              filters:
+                - RewritePath=/api/concerts/v3/api-docs, /v3/api-docs
+
+            - id: customers-service
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/customers/**
+              filters:
+                - RewritePath=/api/customers/v3/api-docs, /v3/api-docs
+
+            - id: showtimes-service
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/showtimes/**
+              filters:
+                - RewritePath=/api/showtimes/v3/api-docs, /v3/api-docs
+
+            - id: reservation-service
+              uri: http://localhost:8085
+              predicates:
+                - Path=/api/reservations/**
+              filters:
+                - RewritePath=/api/reservations/v3/api-docs, /v3/api-docs
+
+server:
+  port: 8080
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: concerts-service
+        url: /api/concerts/v3/api-docs
+
+      - name: customers-service
+        url: /api/customers/v3/api-docs
+
+      - name: showtimes-service
+        url: /api/showtimes/v3/api-docs
+
+      - name: reservation-service
+        url: /api/reservations/v3/api-docs

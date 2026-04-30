@@ -1,7 +1,5 @@
 package com.champsoft.concertbooking.reservation.api;
 
-import com.champsoft.concertbooking.reservation.application.exception.ReservationAlreadyExistsException;
-import com.champsoft.concertbooking.reservation.application.exception.ReservationModificationNotAllowedException;
 import com.champsoft.concertbooking.reservation.domain.exception.DuplicateReservationException;
 import com.champsoft.concertbooking.reservation.domain.exception.InvalidReservationException;
 import com.champsoft.concertbooking.reservation.domain.exception.ReservationNotFoundException;
@@ -22,21 +20,15 @@ public class ReservationExceptionHandler {
         return buildResponse(e.getMessage(), HttpStatus.NOT_FOUND, request);
     }
 
-    @ExceptionHandler({DuplicateReservationException.class, ReservationAlreadyExistsException.class})
-    public ResponseEntity<ApiErrorResponse> handleConflict(RuntimeException e, HttpServletRequest request) {
+    @ExceptionHandler(DuplicateReservationException.class)
+    public ResponseEntity<ApiErrorResponse> handleConflict(DuplicateReservationException e, HttpServletRequest request) {
         return buildResponse(e.getMessage(), HttpStatus.CONFLICT, request);
     }
 
-    @ExceptionHandler({InvalidReservationException.class, ReservationModificationNotAllowedException.class})
-    public ResponseEntity<ApiErrorResponse> handleInvalidReservation(RuntimeException e, HttpServletRequest request) {
+    @ExceptionHandler(InvalidReservationException.class)
+    public ResponseEntity<ApiErrorResponse> handleInvalidReservation(InvalidReservationException e, HttpServletRequest request) {
         return buildResponse(e.getMessage(), HttpStatus.BAD_REQUEST, request);
     }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleUnexpected(Exception e, HttpServletRequest request) {
-        return buildResponse("Unexpected error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, request);
-    }
-
     private ResponseEntity<ApiErrorResponse> buildResponse(String message, HttpStatus status, HttpServletRequest request) {
         ApiErrorResponse error = new ApiErrorResponse(
                 message,

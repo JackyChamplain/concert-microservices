@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:showtime_db}
+    username: ${POSTGRES_USER:concert_user}
+    password: ${POSTGRES_PASSWORD:concert_pass}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
