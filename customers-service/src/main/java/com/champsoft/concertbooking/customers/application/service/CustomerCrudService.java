@@ -1,5 +1,7 @@
 package com.champsoft.concertbooking.customers.application.service;
 
+import com.champsoft.concertbooking.customers.exception.CustomerAlreadyExistsException;
+import com.champsoft.concertbooking.customers.exception.CustomerEmailAlreadyInUseException;
 import com.champsoft.concertbooking.customers.application.port.out.CustomerRepositoryPort;
 import com.champsoft.concertbooking.customers.domain.exception.CustomerNotFoundException;
 import com.champsoft.concertbooking.customers.domain.exception.DuplicateEmailException;
@@ -26,25 +28,34 @@ public class CustomerCrudService {
     }
 
     public CustomerJpaEntity create(CustomerJpaEntity entity) {
+        if (port.findById(entity.id).isPresent()) {
+            throw new CustomerAlreadyExistsException("Customer with ID " + entity.id + " already exists.");
+        }
+
         if (port.existsByEmail(entity.email)) {
             throw new DuplicateEmailException("Email " + entity.email + " is already in use.");
         }
+
         return port.save(entity);
     }
 
     public CustomerJpaEntity update(String id, CustomerJpaEntity entity) {
-        return port.findById(id)
-                .map(existing -> {
-                    entity.id = id;
-                    return port.save(entity);
-                })
+        CustomerJpaEntity existing = port.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException("Cannot update. Customer not found with ID: " + id));
+
+        boolean emailTakenByAnotherCustomer = port.findAll().stream()
+                .anyMatch(customer -> !customer.id.equals(id) && customer.email.equalsIgnoreCase(entity.email));
+        if (emailTakenByAnotherCustomer) {
+            throw new CustomerEmailAlreadyInUseException("Email " + entity.email + " is already in use by another customer.");
+        }
+
+        entity.id = existing.id;
+        return port.save(entity);
     }
 
     public void delete(String id) {
-        if (!port.findById(id).isPresent()) {
-            throw new CustomerNotFoundException("Cannot delete. Customer not found with ID: " + id);
-        }
+        port.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Cannot delete. Customer not found with ID: " + id));
         port.deleteById(id);
     }
 }

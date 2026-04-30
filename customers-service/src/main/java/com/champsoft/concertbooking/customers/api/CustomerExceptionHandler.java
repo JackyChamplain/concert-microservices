@@ -1,5 +1,7 @@
 package com.champsoft.concertbooking.customers.api;
 
+import com.champsoft.concertbooking.customers.exception.CustomerAlreadyExistsException;
+import com.champsoft.concertbooking.customers.exception.CustomerEmailAlreadyInUseException;
 import com.champsoft.concertbooking.customers.domain.exception.CustomerNotFoundException;
 import com.champsoft.concertbooking.customers.domain.exception.DuplicateEmailException;
 import com.champsoft.concertbooking.customers.web.ApiErrorResponse;
@@ -19,9 +21,14 @@ public class CustomerExceptionHandler {
         return buildResponse(e.getMessage(), HttpStatus.NOT_FOUND, request);
     }
 
-    @ExceptionHandler(DuplicateEmailException.class)
-    public ResponseEntity<ApiErrorResponse> handleDuplicate(DuplicateEmailException e, HttpServletRequest request) {
+    @ExceptionHandler({DuplicateEmailException.class, CustomerAlreadyExistsException.class, CustomerEmailAlreadyInUseException.class})
+    public ResponseEntity<ApiErrorResponse> handleConflict(RuntimeException e, HttpServletRequest request) {
         return buildResponse(e.getMessage(), HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiErrorResponse> handleUnexpected(Exception e, HttpServletRequest request) {
+        return buildResponse("Unexpected error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
     private ResponseEntity<ApiErrorResponse> buildResponse(String message, HttpStatus status, HttpServletRequest request) {
