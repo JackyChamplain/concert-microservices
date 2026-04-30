@@ -5,6 +5,6 @@ import java.time.LocalDate;
 public record ShowtimeResponse(
         String id,
         LocalDate date,
-        LocalDate time,
+        java.time.LocalTime time,
         String concertId
 ) {}

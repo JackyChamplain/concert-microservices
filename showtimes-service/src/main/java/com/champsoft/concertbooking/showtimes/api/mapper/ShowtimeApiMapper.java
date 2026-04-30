@@ -7,10 +7,10 @@ public class ShowtimeApiMapper {
 
     public static ShowtimeResponse toResponse(ShowtimeJpaEntity entity) {
         return new ShowtimeResponse(
-                entity.getId(),
-                entity.getDate(),
-                entity.getDate(),
-                entity.getConcertId()
+                entity.id,
+                entity.date,
+                entity.time,
+                entity.concertId
         );
     }
 

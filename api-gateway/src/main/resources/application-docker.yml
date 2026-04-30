@@ -11,21 +11,29 @@ spring:
               uri: http://concerts-service:8080
               predicates:
                 - Path=/api/concerts/**
+              filters:
+                - RewritePath=/api/concerts/(?<segment>.*), /$\{segment}
 
             - id: customers-service
               uri: http://customers-service:8080
               predicates:
                 - Path=/api/customers/**
+              filters:
+                - RewritePath=/api/customers/(?<segment>.*), /$\{segment}
 
             - id: showtimes-service
               uri: http://showtimes-service:8080
               predicates:
                 - Path=/api/showtimes/**
+              filters:
+                - RewritePath=/api/showtimes/(?<segment>.*), /$\{segment}
 
             - id: reservation-service
               uri: http://reservation-service:8080
               predicates:
                 - Path=/api/reservations/**
+              filters:
+                - RewritePath=/api/reservations/(?<segment>.*), /$\{segment}
 
 server:
   port: 8080
@@ -35,10 +43,10 @@ springdoc:
     path: /swagger-ui.html
     urls:
       - name: concerts-service
-        url: http://localhost:8081/v3/api-docs
+        url: /api/concerts/v3/api-docs
       - name: customers-service
-        url: http://localhost:8082/v3/api-docs
+        url: /api/customers/v3/api-docs
       - name: showtimes-service
-        url: http://localhost:8083/v3/api-docs
+        url: /api/showtimes/v3/api-docs
       - name: reservation-service
-        url: http://localhost:8084/v3/api-docs
+        url: /api/reservations/v3/api-docs
