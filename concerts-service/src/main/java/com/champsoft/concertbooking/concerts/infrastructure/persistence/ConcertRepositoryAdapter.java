@@ -1,6 +1,6 @@
 package com.champsoft.concertbooking.concerts.infrastructure.persistence;
 
-import com.champsoft.concertbooking.concerts.port.out.ConcertRepositoryPort;
+import com.champsoft.concertbooking.concerts.application.port.out.ConcertRepositoryPort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

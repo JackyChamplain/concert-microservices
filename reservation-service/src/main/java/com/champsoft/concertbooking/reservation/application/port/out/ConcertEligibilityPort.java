@@ -1,1 +1,5 @@
-package com.champsoft.concertBooking.modules.reservation.application.port.out; public interface ConcertEligibilityPort {}
+package com.champsoft.concertbooking.reservation.application.port.out;
+
+public interface ConcertEligibilityPort {
+    boolean concertExists(String concertId);
+}

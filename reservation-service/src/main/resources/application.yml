@@ -32,3 +32,11 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+services:
+  concerts:
+    base-url: ${CONCERTS_BASE_URL:http://localhost:8081}
+  customers:
+    base-url: ${CUSTOMERS_BASE_URL:http://localhost:8082}
+  showtimes:
+    base-url: ${SHOWTIMES_BASE_URL:http://localhost:8083}
