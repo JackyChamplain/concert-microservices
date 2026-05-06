@@ -41,12 +41,12 @@ public class ConcertCrudService {
                     entity.id = id;
                     return repositoryPort.save(entity);
                 })
-                .orElseThrow(() -> new RuntimeException("Cannot update. Concert not found with id: " + id));
+                .orElseThrow(() -> new ConcertNotFoundException("Cannot update. Concert not found with id: " + id));
     }
 
     public void delete(String id) {
         if (!repositoryPort.findById(id).isPresent()) {
-            throw new RuntimeException("Cannot delete. Concert not found.");
+            throw new ConcertNotFoundException("Cannot delete. Concert not found.");
         }
         repositoryPort.deleteById(id);
     }

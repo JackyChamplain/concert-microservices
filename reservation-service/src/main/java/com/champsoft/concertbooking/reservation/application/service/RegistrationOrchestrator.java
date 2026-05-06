@@ -28,7 +28,6 @@ public class RegistrationOrchestrator {
     }
 
     public ReservationJpaEntity register(ReservationJpaEntity reservation) {
-        // Business Logic: Check for double-booking
         boolean exists = repositoryPort.findAll().stream()
                 .anyMatch(r -> r.customerId.equals(reservation.customerId)
                         && r.showtimeId.equals(reservation.showtimeId));

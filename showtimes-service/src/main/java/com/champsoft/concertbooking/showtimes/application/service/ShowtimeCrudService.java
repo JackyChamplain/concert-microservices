@@ -78,7 +78,7 @@ public class ShowtimeCrudService {
         }
 
         if (entity.time == null) {
-            throw new InvalidShowtimeException("Showtime time cannot be null.");
+            throw new InvalidShowtimeException("Showtime cannot be null.");
         }
 
         LocalDateTime showDateTime =

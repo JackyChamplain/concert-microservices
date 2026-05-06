@@ -7,33 +7,57 @@ spring:
       server:
         webflux:
           routes:
+            - id: concerts-docs
+              uri: http://concerts-service:8080
+              predicates:
+                - Path=/api/concerts/v3/api-docs
+              filters:
+                - SetPath=/v3/api-docs
             - id: concerts-service
               uri: http://concerts-service:8080
               predicates:
                 - Path=/api/concerts/**
               filters:
-                - RewritePath=/api/concerts/(?<segment>.*), /$\{segment}
+                - RewritePath=/api/concerts/(?<segment>.*), /api/concerts/$\{segment}
 
+            - id: customers-docs
+              uri: http://customers-service:8080
+              predicates:
+                - Path=/api/customers/v3/api-docs
+              filters:
+                - SetPath=/v3/api-docs
             - id: customers-service
               uri: http://customers-service:8080
               predicates:
                 - Path=/api/customers/**
               filters:
-                - RewritePath=/api/customers/(?<segment>.*), /$\{segment}
+                - RewritePath=/api/customers/(?<segment>.*), /api/customers/$\{segment}
 
+            - id: showtimes-docs
+              uri: http://showtimes-service:8080
+              predicates:
+                - Path=/api/showtimes/v3/api-docs
+              filters:
+                - SetPath=/v3/api-docs
             - id: showtimes-service
               uri: http://showtimes-service:8080
               predicates:
                 - Path=/api/showtimes/**
               filters:
-                - RewritePath=/api/showtimes/(?<segment>.*), /$\{segment}
+                - RewritePath=/api/showtimes/(?<segment>.*), /api/showtimes/$\{segment}
 
+            - id: reservations-docs
+              uri: http://reservation-service:8080
+              predicates:
+                - Path=/api/reservations/v3/api-docs
+              filters:
+                - SetPath=/v3/api-docs
             - id: reservation-service
               uri: http://reservation-service:8080
               predicates:
                 - Path=/api/reservations/**
               filters:
-                - RewritePath=/api/reservations/(?<segment>.*), /$\{segment}
+                - RewritePath=/api/reservations/(?<segment>.*), /api/reservations/$\{segment}
 
 server:
   port: 8080

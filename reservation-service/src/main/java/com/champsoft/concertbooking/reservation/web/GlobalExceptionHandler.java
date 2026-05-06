@@ -1,32 +1,36 @@
 package com.champsoft.concertbooking.reservation.web;
 
-import com.champsoft.concertbooking.reservation.application.exception.*;
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
+import com.champsoft.concertbooking.reservation.domain.exception.DuplicateReservationException;
+import com.champsoft.concertbooking.reservation.domain.exception.InvalidReservationException;
+import com.champsoft.concertbooking.reservation.domain.exception.ReservationNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ReservationAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleAlreadyExists(ReservationAlreadyExistsException ex) {
-        return build(HttpStatus.CONFLICT, ex.getMessage());
+    @ExceptionHandler(ReservationNotFoundException.class)
+    public ResponseEntity<Object> handleNotFound(ReservationNotFoundException ex) {
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
-    @ExceptionHandler(ReservationModificationNotAllowedException.class)
-    public ResponseEntity<ErrorResponse> handleModification(ReservationModificationNotAllowedException ex) {
-        return build(HttpStatus.BAD_REQUEST, ex.getMessage());
+    @ExceptionHandler({DuplicateReservationException.class, InvalidReservationException.class})
+    public ResponseEntity<Object> handleBadRequest(Exception ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
-        return build(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error");
-    }
-
-    private ResponseEntity<ErrorResponse> build(HttpStatus status, String message) {
-        return ResponseEntity
-                .status(status)
-                .body(new ErrorResponse(status.value(), message, LocalDateTime.now()));
+    private ResponseEntity<Object> buildResponse(HttpStatus status, String message) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", status.value());
+        body.put("error", status.getReasonPhrase());
+        body.put("message", message);
+        return new ResponseEntity<>(body, status);
     }
 }
