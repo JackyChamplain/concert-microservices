@@ -1,1 +1,1 @@
-package com.champsoft.concertBooking.modules.reservation.api.dto; public class CancelReservationRequest {}
+package com.champsoft.concertbooking.reservation.api.dto; public class CancelReservationRequest {}

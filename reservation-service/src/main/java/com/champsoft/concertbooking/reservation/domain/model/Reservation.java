@@ -1,4 +1,4 @@
-package com.champsoft.concertBooking.modules.reservation.domain.model;
+package com.champsoft.concertbooking.reservation.domain.model;
 
 // BUSINESS RULES:
 // - A customer CANNOT book two concerts at the same time
