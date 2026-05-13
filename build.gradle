@@ -1,0 +1,31 @@
+plugins {
+ id 'base'
+}
+
+def jacocoAllReports = tasks.register('jacocoAllReports')
+
+subprojects {
+ pluginManager.withPlugin('java') {
+  apply plugin: 'jacoco'
+
+  jacoco {
+   toolVersion = '0.8.13'
+  }
+
+  tasks.withType(Test).configureEach {
+   finalizedBy(tasks.named('jacocoTestReport'))
+  }
+
+  tasks.withType(JacocoReport).configureEach {
+   dependsOn(tasks.named('test'))
+   reports {
+    xml.required = true
+    html.required = true
+   }
+  }
+
+  rootProject.tasks.named('jacocoAllReports') {
+   dependsOn(tasks.named('jacocoTestReport'))
+  }
+ }
+}

@@ -1,7 +1,7 @@
 services:
-  cars:
-    base-url: http://cars-service:8080
-  owners:
-    base-url: http://owners-service:8080
-  agents:
-    base-url: http://agents-service:8080
+  concerts:
+    base-url: http://concerts-service:8080
+  customers:
+    base-url: http://customers-service:8080
+  showtimes:
+    base-url: http://showtimes-service:8080

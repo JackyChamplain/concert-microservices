@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   # ---------------- DATABASES ----------------
   concerts-db:
@@ -68,7 +67,7 @@ services:
     build: ./customers-service
     container_name: customers-service
     environment:
-      SPRING_PROFILES_ACTIVE:
+      SPRING_PROFILES_ACTIVE: pg
       POSTGRES_HOST: customers-db
       POSTGRES_PORT: 5432
       POSTGRES_DB: customers_db
@@ -109,6 +108,7 @@ services:
         SERVER_PORT: 8080
       depends_on:
         - reservation-db
+        - concerts-service
         - customers-service
         - showtimes-service
       ports:

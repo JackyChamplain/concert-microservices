@@ -1,1 +1,1 @@
-package com.champsoft.concertBooking.modules.reservation.domain.model; public record ConcertRef(String concertId) {}
+package com.champsoft.concertbooking.reservation.domain.model; public record ConcertRef(String concertId) {}
