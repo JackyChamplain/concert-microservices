@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '4.0.2'
+	id 'org.springframework.boot' version '3.4.3'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
@@ -18,34 +18,33 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-h2console'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-flyway'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// Web and Validation
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1'
+
+	// Database and Persistence
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.flywaydb:flyway-core' // Fixed Flyway
 	implementation 'org.flywaydb:flyway-database-postgresql'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// OpenAPI / Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5' // Use a stable 2.x version for SB 3.x
+
+	// Drivers
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	// Annotation Processing
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	// Testing (The essentials for your coverage goals)
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.mockito:mockito-core'
-	testImplementation 'org.mockito:mockito-junit-jupiter'
-
-	testRuntimeOnly 'com.h2database:h2'
-	testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-flyway-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-validation-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-webflux' // Required for WebTestClient
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 }
-
 tasks.named('test') {
 	useJUnitPlatform()
 }

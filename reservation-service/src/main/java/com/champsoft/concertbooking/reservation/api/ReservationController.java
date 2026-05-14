@@ -2,7 +2,8 @@ package com.champsoft.concertbooking.reservation.api;
 
 import com.champsoft.concertbooking.reservation.api.dto.*;
 import com.champsoft.concertbooking.reservation.api.mapper.ReservationApiMapper;
-import com.champsoft.concertbooking.reservation.application.service.RegistrationOrchestrator;
+import com.champsoft.concertbooking.reservation.application.service.ReservationOrchestrator;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +13,9 @@ import java.util.List;
 @RequestMapping("/api/reservations")
 public class ReservationController {
 
-    private final RegistrationOrchestrator service;
+    private final ReservationOrchestrator service;
 
-    public ReservationController(RegistrationOrchestrator service) {
+    public ReservationController(ReservationOrchestrator service) {
         this.service = service;
     }
 
@@ -32,7 +33,7 @@ public class ReservationController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ReservationResponse book(@RequestBody BookConcertRequest request) {
+    public ReservationResponse book(@Valid @RequestBody BookConcertRequest request) {
         var reservation = ReservationApiMapper.toEntity(request);
         return ReservationApiMapper.toResponse(service.register(reservation));
     }

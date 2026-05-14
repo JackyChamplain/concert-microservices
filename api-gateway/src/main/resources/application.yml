@@ -14,3 +14,16 @@ services:
     base-url: ${SHOWTIMES_BASE_URL:http://localhost:8083}
   reservations:
     base-url: ${RESERVATIONS_BASE_URL:http://localhost:8085}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: concerts-service
+        url: /api/concerts/v3/api-docs
+      - name: customers-service
+        url: /api/customers/v3/api-docs
+      - name: showtimes-service
+        url: /api/showtimes/v3/api-docs
+      - name: reservation-service
+        url: /api/reservations/v3/api-docs

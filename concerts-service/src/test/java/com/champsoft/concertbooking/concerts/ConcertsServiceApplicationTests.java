@@ -8,4 +8,8 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("h2")
 class ConcertsServiceApplicationTests {
  @Test void contextLoads() {}
+ @Test
+ void testMain() {
+  ConcertsServiceApplication.main(new String[] {});
+ }
 }

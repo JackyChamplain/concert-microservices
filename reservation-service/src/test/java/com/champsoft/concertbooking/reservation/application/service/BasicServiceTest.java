@@ -1,8 +1,11 @@
 package com.champsoft.concertbooking.reservation.application.service;
 
 import com.champsoft.concertbooking.reservation.api.dto.UpdateReservationRequest;
+import com.champsoft.concertbooking.reservation.application.exception.ReservationAlreadyExistsException;
+import com.champsoft.concertbooking.reservation.application.exception.ReservationModificationNotAllowedException;
 import com.champsoft.concertbooking.reservation.application.port.out.ReservationRepositoryPort;
 import com.champsoft.concertbooking.reservation.domain.exception.DuplicateReservationException;
+import com.champsoft.concertbooking.reservation.domain.exception.InvalidReservationException;
 import com.champsoft.concertbooking.reservation.domain.exception.ReservationNotFoundException;
 import com.champsoft.concertbooking.reservation.infrastructure.persistence.ReservationJpaEntity;
 import org.junit.jupiter.api.Test;
@@ -27,8 +30,40 @@ class BasicServiceTest {
  private ReservationRepositoryPort repositoryPort;
 
  @InjectMocks
- private RegistrationOrchestrator orchestrator;
+ private ReservationOrchestrator orchestrator;
 
+ @Test
+ void updateThrowsWhenAlreadyCancelled() {
+  ReservationJpaEntity existing = new ReservationJpaEntity("r-1", "c-1", "con-1", "sh-1", "CANCELLED");
+  when(repositoryPort.findById("r-1")).thenReturn(Optional.of(existing));
+
+  assertThrows(InvalidReservationException.class, () ->
+          orchestrator.updateReservation("r-1", new UpdateReservationRequest("ACTIVE")));
+ }
+
+ @Test
+ void updateThrowsWhenStatusIsSame() {
+  ReservationJpaEntity existing = new ReservationJpaEntity("r-1", "c-1", "con-1", "sh-1", "ACTIVE");
+  when(repositoryPort.findById("r-1")).thenReturn(Optional.of(existing));
+
+  assertThrows(InvalidReservationException.class, () ->
+          orchestrator.updateReservation("r-1", new UpdateReservationRequest("active")));
+ }
+
+ @Test
+ void deleteRemovesEntitySuccessfully() {
+  when(repositoryPort.findById("r-1")).thenReturn(Optional.of(new ReservationJpaEntity()));
+
+  orchestrator.deleteReservation("r-1");
+
+  verify(repositoryPort).deleteById("r-1");
+ }
+
+ @Test
+ void getAllCallsRepository() {
+  orchestrator.getAllReservations();
+  verify(repositoryPort).findAll();
+ }
  @Test
  void registerRejectsDuplicateReservation() {
   ReservationJpaEntity existing = new ReservationJpaEntity("r-1", "c-1", "concert-1", "show-1", "ACTIVE");
@@ -59,4 +94,20 @@ class BasicServiceTest {
 
   assertThrows(ReservationNotFoundException.class, () -> orchestrator.deleteReservation("missing"));
  }
+
+  @Test
+  void testExceptions() {
+   Exception ex1 = new ReservationAlreadyExistsException("Error message");
+   assertEquals("Error message", ex1.getMessage());
+   Exception ex2 = new ReservationModificationNotAllowedException("Error message");
+   assertEquals("Error message", ex2.getMessage());
+   Exception ex3 = new ReservationNotFoundException("Error message");
+   assertEquals("Error message", ex3.getMessage());
+   Exception ex4 = new DuplicateReservationException("Error message");
+   assertEquals("Error message", ex4.getMessage());
+   Exception ex5 = new InvalidReservationException("Error message");
+   assertEquals("Error message", ex5.getMessage());
+  }
+
+
 }

@@ -1,3 +1,12 @@
+spring:
+  application:
+    name: api-gateway
+  config:
+    activate:
+      on-profile: docker
+server:
+  port: 8080
+
 services:
   concerts:
     base-url: http://concerts-service:8080
@@ -7,3 +16,16 @@ services:
     base-url: http://showtimes-service:8080
   reservations:
     base-url: http://reservation-service:8080
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: concerts-service
+        url: /api/concerts/v3/api-docs
+      - name: customers-service
+        url: /api/customers/v3/api-docs
+      - name: showtimes-service
+        url: /api/showtimes/v3/api-docs
+      - name: reservation-service
+        url: /api/reservations/v3/api-docs

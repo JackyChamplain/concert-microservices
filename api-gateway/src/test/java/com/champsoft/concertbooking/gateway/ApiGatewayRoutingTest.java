@@ -28,6 +28,7 @@ class ApiGatewayRoutingTest {
  static void startBackend() throws IOException {
   backendServer = HttpServer.create(new InetSocketAddress(0), 0);
   backendServer.createContext("/api/concerts/test-concert", ApiGatewayRoutingTest::handleConcertRequest);
+
   backendServer.start();
  }
 

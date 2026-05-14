@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RegistrationOrchestrator {
+public class ReservationOrchestrator {
     private final ReservationRepositoryPort repositoryPort;
 
-    public RegistrationOrchestrator(ReservationRepositoryPort repositoryPort) {
+    public ReservationOrchestrator(ReservationRepositoryPort repositoryPort) {
         this.repositoryPort = repositoryPort;
     }
 

@@ -8,4 +8,9 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("h2")
 class ReservationServiceApplicationTests {
  @Test void contextLoads() {}
+ @Test
+ void main() {
+  // This ensures the static main method is invoked
+  ReservationServiceApplication.main(new String[] {});
+ }
 }

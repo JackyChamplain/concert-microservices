@@ -20,8 +20,13 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
-    @ExceptionHandler({DuplicateReservationException.class, InvalidReservationException.class})
-    public ResponseEntity<Object> handleBadRequest(Exception ex) {
+    @ExceptionHandler(DuplicateReservationException.class)
+    public ResponseEntity<Object> handleConflict(DuplicateReservationException ex) {
+        return buildResponse(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidReservationException.class)
+    public ResponseEntity<Object> handleBadRequest(InvalidReservationException ex) {
         return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
